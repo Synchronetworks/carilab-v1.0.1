@@ -1,0 +1,29 @@
+.modal-footer {
+    padding: $modal-inner-padding * .5;
+}
+
+#imagePreviewModal {
+    z-index: 2051;
+
+    .modal-dialog {
+        max-width: 90vw;
+        margin: 0 auto;
+    }
+
+    .modal-body {
+        text-align: center;
+        padding: 0;
+    }
+
+    #modalImage {
+        max-height: 90vh;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        padding: 24px;
+    }
+}
+
+body:has(.imagePreviewModal.show) .uploadModal {
+    opacity: 0;
+}

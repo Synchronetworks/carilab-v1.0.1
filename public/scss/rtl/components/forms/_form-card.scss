@@ -1,0 +1,40 @@
+.card {
+  .input-group {
+    background: var(--bs-gray-900);
+    .form-control {
+      background: var(--bs-body-bg);
+      padding-right: 1.5rem;
+      padding-left: 0;
+      border-right: var(--bs-border-width) solid var(--bs-border-color);
+      border-left: 0;
+      border-top-right-radius: var(--bs-border-radius);
+      border-bottom-right-radius: var(--bs-border-radius);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      &:focus {
+        border-right: var(--bs-border-width) solid var(--bs-primary);
+      }
+      &.is-invalid {
+        border-color: var(--bs-danger);
+        border-right: var(--bs-border-width) solid var(--bs-danger);
+      }
+      &.is-invalid {
+        + .input-group-text {
+          border-color: var(--bs-danger);
+          border-left: var(--bs-border-width) solid var(--bs-danger) !important;
+        }
+      }
+
+      & + .input-group-text {
+        border-top-right-radius: var(--bs-border-radius) !important;
+        border-bottom-right-radius: var(--bs-border-radius) !important;
+      }
+    }
+
+    .input-group-text {
+      background: var(--bs-body-bg);
+      border-left: var(--bs-border-width) solid var(--bs-border-color);
+      border-right: none;
+    }
+  }
+}

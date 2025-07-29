@@ -1,0 +1,187 @@
+.btn-file-upload {
+    background: var(--bs-gray-900);
+    border: 1px solid var(--bs-border-color);
+    padding: 1rem;
+}
+
+.form-group-alt{
+    &.input-group{
+        box-shadow: $box-shadow-sm;
+        border-radius: $border-radius-sm;
+        .input-group-text{
+            background: transparent;
+        }
+        > :not(:first-child):not(.dropdown-menu){
+            box-shadow: unset;
+            &.input-group-text {
+                border: 0;
+                padding-left: 0;
+            }
+        }
+        > :not(:last-child):not(.dropdown-menu){
+            box-shadow: unset;
+            padding-right: 0;
+            &.input-group-text {
+                border: 0;
+            }
+        }
+    }
+    .form-control {
+        border: 0;
+        box-shadow: $box-shadow-sm;       
+    }
+}
+
+.form-select{
+    box-shadow: none;
+    &:focus{
+        box-shadow: none;
+    }
+}
+
+.form-control {
+    &[readonly]{
+        background-color: var(--#{$prefix}gray-900);
+    }
+}
+
+option:disabled {
+    color: var(--bs-gray-400);
+}
+
+.multiselect{
+    background: $input-bg !important;
+    border-color: $input-border-color;
+
+    .multiselect-dropdown{
+        background: $input-bg;
+        border-color: $input-border-color;
+        border-radius: $input-border-radius;
+    }
+
+    &:focus {
+        box-shadow: none !important;
+    }
+
+    &.is-active {
+       box-shadow: none !important;
+       border: none;
+    }
+}
+
+.vti__dropdown.open,
+.vti__dropdown:hover,
+.vti__dropdown-list{
+    background-color: $input-bg !important;
+}
+
+.vti__dropdown-list{
+    border: $input-border-width solid $input-border-color !important;
+}
+
+.vti__dropdown-item{
+    &.highlighted{
+        background-color: var(--bs-body-bg) !important;
+    }
+}
+
+.form-control{
+    &.signature-pad{
+        padding: 0;
+    }
+}
+
+.form-control, .form-select{
+    &.field-with-border{
+        border-color: var(--bs-border-color);
+
+        &:focus{
+            border-color: $input-focus-border-color;
+        }
+    }
+}
+
+.multiselect{ 
+    .multiselect-search{
+        background-color: var(--bs-gray-900);
+    }
+}
+
+.clickable-text {
+    cursor: pointer;
+    padding: 8px 16px;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    margin: 4px;
+    display: inline-block;
+}
+
+.bg-body {
+    .clickable-text {
+        background: var(--bs-gray-900);
+    }
+}
+
+.clickable-text.selected {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+.clickable-text:hover {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.invalid-feedback {
+    color: var(--bs-danger);
+  }
+  
+  .was-validated .form-control:invalid,
+  .form-control.is-invalid{
+    border-color: var(--bs-danger);
+  }
+  
+.was-validated .form-select:invalid,
+.form-select.is-invalid{
+  border-color: var(--bs-danger);
+}
+
+  .was-validated .form-control:invalid+.input-group-text,
+  .form-control.is-invalid+.input-group-text{
+    border-color: var(--bs-danger);
+  }
+
+  .was-validated .form-select:invalid +.select2-container--default .select2-selection--multiple,
+  .form-select.is-invalid +.select2-container--default .select2-selection--multiple,
+  .was-validated .form-select:invalid +.select2-container--default .select2-selection--single ,
+  .form-select.is-invalid +.select2-container--default .select2-selection--single {
+    border-color: var(--bs-danger);
+  }
+
+  
+//   .was-validated .form-check-input:valid:checked, .form-check-input.is-valid:checked {
+//     background-color: var(--bs-danger);
+//   }
+  
+//   .was-validated .form-check-input:valid, .form-check-input.is-valid {
+//     border-color: var(--bs-danger);
+//   }
+  
+  .was-validated .form-control:valid,
+  .form-control.is-valid {
+    border-color: transparent;
+    background-image: none;
+  }
+  
+  .was-validated .form-control:valid:focus, .form-control.is-valid:focus {
+    border-color: var(--bs-danger);
+  }
+  
+  .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
+    border-color: var(--bs-danger);
+  }
+  
+  .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
+    color: var(--bs-body-color);
+  }
+  

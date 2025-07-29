@@ -1,0 +1,37 @@
+.custom-table-effect {
+  .table {
+    tbody {
+      tr {
+        &:after {
+          right: 0;
+          border-top-left-radius: $border-radius;
+          border-bottom-left-radius: $border-radius;
+          border-top-right-radius: unset;
+          border-bottom-right-radius: unset;
+        }
+      }
+    }
+  }
+}
+
+.table {
+  tr {
+    td {
+      &:first-child {
+        border-right-width: var(--bs-border-width);
+        border-left-width: inherit;
+      }
+      &:last-child {
+        border-left-width: var(--bs-border-width);
+        border-right-width: inherit;
+      }
+    }
+  }
+}
+
+table.dataTable tfoot td,
+table.dataTable tfoot th,
+table.dataTable thead td,
+table.dataTable thead th {
+  text-align: right;
+}

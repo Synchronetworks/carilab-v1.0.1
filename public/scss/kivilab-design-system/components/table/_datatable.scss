@@ -1,0 +1,43 @@
+.dataTables_wrapper {
+  .pagination {
+    .paginate_button {
+      .page-link {
+        background: var(--bs-gray-900);
+        color: var(--bs-body-color);
+      }
+      &.active {
+        .page-link {
+          background: var(--bs-primary);
+          color: var(--bs-white);
+        }
+      }
+      &:not(:last-child) {
+        border-right: 1px solid var(--bs-border-color);
+      }
+    }
+  }
+  .dataTables_processing {
+    top: 105px !important;
+    left: 50%;
+    z-index: 9;
+    border: 1px solid var(--bs-border-color);
+  }
+  .description-column {
+    white-space: normal;
+  }
+}
+
+div#datatable_wrapper {
+  position: relative;
+}
+div.dataTables_wrapper div.dataTables_info {
+  padding-top: 0 !important;
+  font-size: 0.875rem;
+}
+@include media-breakpoint-down(lg) {
+  .dataTables_wrapper {
+    .description-column {
+      white-space: nowrap;
+    }
+  }
+}

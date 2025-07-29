@@ -1,0 +1,220 @@
+<?php
+
+namespace Modules\Subscriptions\Http\Controllers\Backend\API;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
+use Modules\Subscriptions\Models\Plan;
+use Modules\Subscriptions\Models\Subscription;
+use Modules\Subscriptions\Models\SubscriptionTransactions;
+use Modules\Subscriptions\Trait\SubscriptionTrait;
+use Modules\Subscriptions\Transformers\SubscriptionResource;
+use Modules\Tax\Models\Tax;
+use App\Mail\SubscriptionDetail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Trait\NotificationTrait;
+class SubscriptionController extends Controller
+{
+    use SubscriptionTrait;
+    use NotificationTrait;  
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Renderable
+     */
+    public function saveSubscriptionDetails(Request $request)
+    {
+        $user_id = $request->user_id ? $request->user_id : auth()->id();
+
+        $user = User::where('id', $user_id)->first();
+
+        $timezone = date_default_timezone_set($this->getTimeZone());
+
+        $get_existing_plan = $this->get_user_active_plan($user_id);
+
+        $active_plan_left_days = 0;
+
+        //set Default Status
+
+        $status = config('constant.SUBSCRIPTION_STATUS.PENDING');
+
+        //start date
+
+        $start_date = date('Y-m-d H:i:s');
+
+        if ($get_existing_plan) {
+            
+            if ($request->identifier != $get_existing_plan->identifier) {
+                $get_existing_plan->update([
+                    'status' => config('constant.SUBSCRIPTION_STATUS.INACTIVE'),
+                ]);
+                $get_existing_plan->save();
+            }
+        }
+
+        $plan = Plan::where('id', $request->plan_id)->with('planLimitation')->first();
+        $limitation_data = null;
+
+        $taxes=Tax::where('status',1)->get();
+
+        $baseAmount = $plan->price;
+
+        if($plan['discount_percentage']>0){
+
+            $baseAmount = $plan->price -($plan->price*$plan['discount_percentage']/100);
+        }
+
+        $totalTax = 0;
+
+        foreach ($taxes as $tax) {
+
+            if (strtolower($tax->type) == 'fixed') {
+
+                $totalTax += $tax->value;
+            } elseif (strtolower($tax->type) == 'percentage') {
+
+                $totalTax += ($baseAmount * $tax->value) / 100;
+            }
+        }
+
+        $totalAmount = $baseAmount + $totalTax; // Total amount
+
+        //get end date
+
+        $end_date = $this->get_plan_expiration_date($start_date, $plan['duration'], $plan['duration_value']);
+
+        $subscribed_plan_data = [
+
+            'plan_id' => $request->plan_id,
+            'user_id' => $user_id,
+            'device_id' => $request->device_id,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'status' => $status,
+            'amount' => $plan['price'],
+            'discount_percentage'=>$plan['discount_percentage'],
+            'tax_amount' => $totalTax,
+            'total_amount' =>$totalAmount,
+            'name' => $plan['name'],
+            'identifier' => $plan['identifier'],
+            'type' => $plan['duration'],
+            'duration' => $plan['duration_value'],
+            'level' => $plan['level'],
+            'plan_type' => $limitation_data ? json_encode( $limitation_data) : null
+
+        ];
+
+        $result = Subscription::create($subscribed_plan_data);
+
+        if ($result) {
+            $payment_data = [
+                'subscriptions_id' => $result->id,
+                'user_id' => $result->user_id,
+                'amount' => $result->amount,
+                'tax_data'=> $taxes->isEmpty() ? null : json_encode($taxes),
+                'payment_status' => $request->payment_status,
+                'payment_type' => $request->payment_type,
+                'transaction_id' => $request->transaction_id,
+            ];
+            $payment = SubscriptionTransactions::create($payment_data);
+
+            if ($payment->payment_status == 'paid') {
+                $result->status = config('constant.SUBSCRIPTION_STATUS.ACTIVE');
+                $result->payment_id = $payment->id;
+                $result->save();
+                $user->is_subscribe = 1;
+                $user->save();
+                $message = __('messages.payment_completed');
+            }
+            $result->plan_type = json_decode($result->plan_type);
+        }
+
+        $response = new SubscriptionResource($result);
+        $activity_data = [
+            'activity_type' => 'subscription_added',
+            'notification_type'=>'subscription_added',
+            'appointment_id' => $result->id,
+            'subscription' => $result,
+        ];
+        $this->sendNotification($activity_data);
+        
+        if (isSmtpConfigured()) {
+            if ($user) {
+                try {
+                    Mail::to($user->email)->send(new SubscriptionDetail($response));
+                    Log::info(__('messages.subscription_detail_email_sent') . $user->email);
+                } catch (\Exception $e) {
+                    Log::error(__('messages.failed_send_email') . $user->email . ': ' . $e->getMessage());
+                }
+            } else {
+                Log::info('messages.user_object_not_sent');
+            }
+        } else {
+            Log::error('messages.smtp_configuration');
+        }
+  
+
+        return $this->sendResponse($response, __('messages.user_subscribe'));
+    }
+
+    public function getUserSubscriptionHistroy()
+    {
+        $user_id = auth()->id();
+
+        return $this->sendResponse(SubscriptionResource::collection(Subscription::where('user_id', $user_id)->get()), __('messages.user_subscribe_history'));
+    }
+
+    public function cancelSubscription(Request $request)
+    {
+        $user_id = $request->user_id ? $request->user_id : auth()->id();
+        $subscription_plan_id = $request->id;
+
+        $user_subscription = Subscription::where('id', $subscription_plan_id)->where('user_id', $user_id)->first();
+
+        $user = User::where('id', $user_id)->first();
+
+        if ($user_subscription) {
+            $user_subscription->status = config('constant.SUBSCRIPTION_STATUS.CANCLE');
+            $user_subscription->save();
+            $user->is_subscribe = 0;
+            $user->save();
+        }else{
+            $message = __('messages.not_subscribe_cancel');
+
+            return response()->json([
+                'status' => false,
+                'message' =>  $message, // Change the message to suit your needs
+            ], 404);
+        }
+        $response = new SubscriptionResource($user_subscription);
+        $activity_data = [
+            'activity_type' => 'cancle_subscription',
+            'notification_type'=>'cancle_subscription',
+            'appointment_id' => $user_subscription->id,
+            'subscription' => $user_subscription,
+            'user_id' => $user_id,
+        ];
+     $this->sendNotification($activity_data);
+        
+        if (isSmtpConfigured()) {
+            if ($user) {
+                try {
+                    Mail::to($user->email)->send(new SubscriptionDetail($response));
+                    Log::info(__('messages.subscription_detail_email_sent') . $user->email);
+                } catch (\Exception $e) {
+                    Log::error(__('messages.failed_send_email') . $user->email . ': ' . $e->getMessage());
+                }
+            } else {
+                Log::info('messages.user_object_not_sent');
+            }
+        } else {
+            Log::error('messages.smtp_configuration');
+        }
+        $message = __('messages.subscribe_cancel');
+
+        return $this->sendResponse($subscription_plan_id, $message);
+    }
+}

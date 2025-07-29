@@ -1,0 +1,9 @@
+.iq-navbar {
+  .navbar-collapse {
+    &:not(.offcanvas-collapse) {
+      .navbar-nav {
+        float: left;
+      }
+    }
+  }
+}

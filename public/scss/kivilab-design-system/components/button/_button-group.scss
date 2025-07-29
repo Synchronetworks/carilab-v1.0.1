@@ -1,0 +1,48 @@
+.btn-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  .input-group {
+    width: auto;
+    .input-group-text {
+      border-color: transparent;
+      border-right: none;
+      border-left: var(--bs-border-width) solid var(--bs-gray-900);
+    }
+    .form-control {
+      padding-left: 1rem;
+      border-left: none;
+      border-color: var(--bs-gray-900);
+      border-top-right-radius: var(--bs-border-radius);
+      border-bottom-right-radius: var(--bs-border-radius);
+      &:focus {
+        border-right: var(--bs-border-width) solid var(--bs-primary);
+        border-color: var(--bs-primary);
+      }
+    }
+    &:focus-within {
+      .input-group-text {
+        border-color: var(--bs-primary);
+        border-left: var(--bs-border-width) solid var(--bs-primary) !important;
+      }
+    }
+  }
+}
+
+.card {
+  .btn-toolbar {
+    .input-group {
+      .form-control {
+        border-color: var(--bs-body-bg);
+      }
+    }
+    .btn {
+      > i {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+
+

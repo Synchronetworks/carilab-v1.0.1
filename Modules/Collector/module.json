@@ -1,0 +1,13 @@
+{
+    "name": "Collector",
+    "alias": "collector",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Collector\\Providers\\CollectorServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

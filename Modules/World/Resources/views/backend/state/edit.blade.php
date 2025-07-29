@@ -1,0 +1,51 @@
+@extends('backend.layouts.app')
+
+@section('content')
+<div class="card">
+  <div class="card-body">
+  {{ html()->form('POST' ,route('backend.state.update', $data->id))->attribute('enctype', 'multipart/form-data')->attribute('data-toggle', 'validator')->open() }}
+        @csrf
+        @method('PUT')
+        <div class="row">
+            <div class="col-sm-6 mb-3">
+                {{ html()->label(__('messages.country').' <span class="text-danger">*</span>', 'country_id')->class('form-label') }}
+                {{ html()->select('country_id', $countries
+                ->pluck('name', 'id'), $data->country_id)
+                ->class('form-control')
+                ->required()
+                }}
+                @error('country_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-sm-6 mb-3">
+                {{ html()->label(__('plan.lbl_name') . ' <span class="text-danger">*</span>', 'name')->class('form-label') }}
+                {{ html()->text('name')
+                        ->attribute('value', $data->name)  ->placeholder(__('messages.lbl_plan_name'))
+                        ->class('form-control')
+                    }}
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-sm-6 mb-3">
+                {{ html()->label(__('messages.lbl_status'), 'status')->class('form-label') }}
+                <div class="form-check form-switch">
+                    {{ html()->hidden('status', 0) }}
+                    {{
+                    html()->checkbox('status',$data->status)
+                        ->class('form-check-input')
+                        ->id('status')
+                    }}
+                </div>
+                @error('status')
+                <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <a href="{{ route('backend.state.index') }}" class="btn btn-secondary">{{__('messages.close')}}</a>
+        {{ html()->submit(trans('messages.save'))->class('btn btn-md btn-primary float-right') }}
+        {{ html()->form()->close() }}
+  </div>
+</div>
+@endsection

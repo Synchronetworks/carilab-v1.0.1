@@ -1,0 +1,6 @@
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    border-color: var(--bs-danger);
+}
+.was-validated .form-control:invalid + .input-group-text, .form-control.is-invalid + .input-group-text {
+    border-color: var(--bs-danger);
+}

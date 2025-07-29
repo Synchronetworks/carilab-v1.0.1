@@ -1,0 +1,103 @@
+.progress-widget {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .progress-detail {
+        margin-left: 1.5rem;
+    }
+}
+
+// Card Profile Progress
+.card-profile-progress {
+    margin-top: 1.25rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .circle-progress {
+        width: 9.375rem;
+        height: 9.375rem;
+    }
+
+    .card-img {
+        width: 6.25rem;
+        height: 6.25rem;
+        position: absolute;
+        top: 1.5rem;
+        object-fit: cover;
+    }
+}
+
+// appoinments status history modal
+.timeline-steps {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .timeline-step {
+        display: flex;
+        position: relative;
+        padding-bottom: 1.5rem;
+
+        &:last-child {
+            padding-bottom: 0;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 14px;
+            bottom: 0;
+            width: 2px;
+            background: var(--bs-border-color);
+        }
+
+        .timeline-content {
+            margin-left: 40px;
+
+            .inner-circle {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background-color: var(--bs-body-color);
+                position: absolute;
+                left: 0;
+                border: 3px solid var(--bs-border-color);
+                &.bg-info {
+                    background-color: var(--bs-info);
+                }
+            }
+        }
+        &.completed {
+            .inner-circle {
+                background-color: var(--bs-success);
+            }
+        
+        }
+
+        .text-info {
+            color: var(--bs-info);
+            font-weight: 500;
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

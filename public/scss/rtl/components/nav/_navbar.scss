@@ -1,0 +1,9 @@
+.dropdown-menu-end {
+  &[data-bs-popper] {
+    right: auto;
+    left: 0;
+  }
+}
+.dropdown-menu {
+  text-align: inherit;
+}

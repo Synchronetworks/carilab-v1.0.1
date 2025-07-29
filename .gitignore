@@ -1,0 +1,40 @@
+# Laravel core
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.env.*.backup
+.phpunit.result.cache
+
+# Laravel caches & logs
+/storage/app/public
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Composer & NPM logs
+composer.lock
+yarn.lock
+npm-debug.log
+pnpm-lock.yaml
+
+# Laravel Telescope (if used)
+storage/telescope
+
+# Laravel Octane (if used)
+storage/octane
+
+# Laravel Horizon (if used)
+horizon-dashboard

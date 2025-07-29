@@ -1,0 +1,123 @@
+.nav-tabs {
+    @include border-radius($nav-tabs-border-radius);
+    margin-bottom: .5rem;
+    .nav-link {
+        border-radius: $border-radius-pill;
+    }
+}
+.nav {
+    &.nav-pills {
+        background: transparent;
+        gap: 1rem;
+        .nav-item {
+            .nav-link {
+                color: var(--bs-heading-color);
+                background-color: var(--bs-gray-900);
+                border-radius: var(--bs-border-radius-pill);
+                font-weight: 600;
+                padding: 0.625rem 2rem;
+                &.active {
+                    color: var(--bs-white);
+                    background-color: var(--bs-secondary);
+                    &:hover {
+                    color: var(--bs-white);
+                    }
+                }
+                &:hover {
+                    color: var(--bs-secondary);
+                }
+            }
+        }
+    }
+}
+
+// tab slider
+.custom-tab-slider {
+    flex-grow: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
+    .nav {
+        &.nav-pills {
+            flex-wrap: nowrap;
+        }
+    }
+}
+
+// Tab Animation
+.tab-content{
+    &.iq-tab-fade-up{
+        .tab-pane.fade {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+            &.active.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+.nav-link {
+    :focus-visible {
+        box-shadow: none;
+    }
+}
+
+.nav {
+    &.nav-pills {
+        &.vendar-reg-tab {
+            gap: 1.5rem;
+            .nav-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                .nav-link {
+                    padding: 0;
+                    height: 2.375rem;
+                    width: 2.375rem;
+                    min-width: 2.375rem;
+                    line-height: 2.375rem;
+                    text-align: center;
+                    i {
+                        display: none;
+                        font-size: 1.2rem;
+                        line-height: 2;
+                    }
+                    &.active + .setup-data {
+                        transform: translateX(0);
+                        display: block;
+                        
+                    }
+                    &.bg-success {
+                        i {
+                            display: block;
+                        }
+                        span.no {
+                            display: none;
+                        }
+                    }
+                }
+                .setup-data {
+                    transform: translateX(-100px);
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 479px) {
+    .nav {
+        &.nav-pills {
+            &.vendar-reg-tab {
+                .nav-item {
+                    .setup-data {
+                        display: none !important;
+                    } 
+                }
+            }
+        }
+    } 
+}

@@ -1,0 +1,9 @@
+.dropdown-item {
+    text-align: right;
+}
+.dropdown-toggle {
+    &::after {
+        margin-left: unset;
+        margin-right: .255em;
+    }
+}

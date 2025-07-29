@@ -1,0 +1,13 @@
+{
+    "name": "Payout",
+    "alias": "payout",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Payout\\Providers\\PayoutServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

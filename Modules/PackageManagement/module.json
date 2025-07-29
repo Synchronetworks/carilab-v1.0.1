@@ -1,0 +1,13 @@
+{
+    "name": "PackageManagement",
+    "alias": "packagemanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PackageManagement\\Providers\\PackageManagementServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

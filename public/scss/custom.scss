@@ -1,0 +1,36 @@
+/*!
+* Version: 1.1.0
+* Template: Example Project
+* Author: iqonic.design
+* Design and Developed by: iqonic.design
+* NOTE: This file contains the styling for Template.
+*
+*/
+
+// Configuration
+@import "./bootstrap/functions";
+
+// KIvilab Design system
+@import "./kivilab-design-system/variables";
+@import "./kivilab-design-system/variables-dark";
+@import "./kivilab-design-system/variables/index";
+@import "./bootstrap/variables";
+@import "./bootstrap/variables-dark";
+@import "./bootstrap/maps";
+@import "./bootstrap/mixins";
+@import "./bootstrap/utilities";
+
+// KIvilab Design System Mixin And Helper
+@import "./kivilab-design-system/helper/functions";
+@import "./kivilab-design-system/helper/mixins";
+@import "./kivilab-design-system/helper/reboot";
+
+@import "./custom/auth/authentication";
+@import "./custom/kanban/kanban";
+@import "./custom/pricing/pricing";
+@import "./custom/ui-kit/ui-kit";
+@import "./custom/global/global";
+@import "./custom/helpdesk/helpdesk";
+
+// Dark Custom
+@import "./custom/dark/dark-custom";

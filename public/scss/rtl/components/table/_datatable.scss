@@ -1,0 +1,9 @@
+.dataTables_wrapper {
+    .pagination {
+        .paginate_button {
+            &:not(:last-child) {
+                border-right: none;
+            }
+        }
+    }
+}
