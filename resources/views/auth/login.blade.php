@@ -67,14 +67,17 @@
     </div>
     @if(multivendor() == 1)
     <div>
-      
+
       <h5><a href="{{ config('app.url') }}/vendor-registration">{{__('messages.register_as_vendor')}}</a></h5>
 
     </div>
     @endif
-    <div>
+
+    {{-- hide demo accounts section --}}
+
+    {{-- <div>
       <h6 class="text-center border-top py-3 mt-3">{{__('messages.demo_accounts')}}</h6>
-      
+
       <div class="d-flex justify-content-between">
         <div>
           <p class="mb-0" id="admin_email">admin@gmail.com</p>
@@ -90,7 +93,7 @@
           </a>
         </div>
       </div>
-      @if(multivendor() == 1) 
+      @if(multivendor() == 1)
       <div class="d-flex justify-content-between">
         <div>
           <p class="mb-0" id="employee_email">vendor@gmail.com</p>
@@ -107,7 +110,7 @@
         </div>
       </div>
       @endif
-    </div>
+    </div> --}}
 
     <x-slot name="extra">
       @if (Route::has('register'))
@@ -119,46 +122,46 @@
   </x-auth-card>
   <script>
     // Add this to your existing script section
-   
+
     document.getElementById('email').addEventListener('blur', function() {
-   
+
             validateField('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-        
+
     });
-    
-    document.getElementById('password').addEventListener('blur', function() { 
+
+    document.getElementById('password').addEventListener('blur', function() {
             validateField('password', /.+/);
     });
-    
+
     function validateField(fieldId, pattern) {
 
         const field = document.getElementById(fieldId);
         const errorDiv = document.getElementById(fieldId + '-error');
-        
+
         if (!field.value) {
             field.classList.add('is-invalid');
             errorDiv.style.display = 'block';
             return false;
         }
-        
+
         if (fieldId === 'email' && !pattern.test(field.value)) {
             field.classList.add('is-invalid');
             errorDiv.style.display = 'block';
             errorDiv.textContent = "{{ __('auth.email_invalid') }}";
             return false;
         }
-        
+
         field.classList.remove('is-invalid');
         errorDiv.style.display = 'none';
         return true;
     }
-    
+
     // Update your existing form submission
     document.querySelector('form').addEventListener('submit', function(e) {
       hasAttemptedSubmit = true;
         const emailValid = validateField('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
         const passwordValid = validateField('password', /.+/);
-        
+
         if (!emailValid || !passwordValid) {
             e.preventDefault();
         }
@@ -180,7 +183,7 @@
     </style>
 
     <!-- jQuery -->
-    <script src="{{ asset('js/jquery.min.js') }}"></script> 
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Select2 JS -->
     <link href="{{ asset('css/select2.css') }}" rel="stylesheet">
     <script src="{{ asset('js/select2.js') }}"></script>
@@ -230,7 +233,7 @@
         domId('email').value = "";
         domId('password').value = "";
       }
-    }  
+    }
     }
     function domId (name) {
       return document.getElementById(name)

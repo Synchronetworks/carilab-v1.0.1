@@ -11,7 +11,7 @@ class="nav navbar navbar-expand-xl navbar-light iq-navbar header-hover-menu left
                 </div>
                 <div class="logo-normal">
                     <img src="{{ GetSettingValue('logo') ?? asset(setting('logo')) }}" height="30" alt="{{ app_name() }}">
-                   
+
                 </div>
                 @if(request()->header('data-bs-theme') == 'dark')
                 <div class="logo-dark">
@@ -93,7 +93,7 @@ class="nav navbar navbar-expand-xl navbar-light iq-navbar header-hover-menu left
                     <a class="nav-link d-flex align-items-center p-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="true" aria-expanded="false"
                         style="color: inherit !important;">
-                     
+
                         <img src="{{ asset('flags/' . App::getLocale() . '.png') }}" alt="flag" class="img-fluid me-2"
                         style="width: 20px; height: auto; min-width: 15px;"
                         onerror="this.onerror=null; this.src='{{asset('flags/globe.png')}}';">
@@ -137,7 +137,7 @@ class="nav navbar navbar-expand-xl navbar-light iq-navbar header-hover-menu left
                                 href="{{ route('backend.my-profile') }}">{{ __('messages.myprofile') }}<i class="ph ph-user"></i></a>
                         </li>
                         @if(auth()->user()->hasRole('vendor'))
-                       
+
                         <li>
                             <a class="dropdown-item d-flex justify-content-between align-items-center"
                                 href="{{ route('backend.vendors.details', ['id' => auth()->id()]) }}">
@@ -215,15 +215,15 @@ $('.notification_list').on('click', function() {
     $('#logout-link').on('click', function(e) {
         e.preventDefault();
         const $form = $('#logout-form');
-    
+
         $form.off('submit');
-     
+
         $form.on('submit', function(e) {
             e.preventDefault();
-            
+
             this.submit();
         });
-        
+
         $form.trigger('submit');
     });
 
@@ -239,7 +239,7 @@ $('.notification_list').on('click', function() {
                 url: url,
                 success: function(res) {
 
-    
+
 
                 }
             });
