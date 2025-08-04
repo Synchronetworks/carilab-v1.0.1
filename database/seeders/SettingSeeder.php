@@ -36,7 +36,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 2,
                 'name' => 'user_app_name',
-                'val' => 'CariLab: Your Ultimate Entertainment Hub',
+                'val' => 'carilab: Your Ultimate Entertainment Hub',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -64,7 +64,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 4,
                 'name' => 'inquriy_email',
-                'val' => 'support@carilab.my',
+                'val' => 'hello@iqonic.design',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -78,7 +78,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 5,
                 'name' => 'short_description',
-                'val' => 'Discover a world of endless entertainment with Kivilab. Your one-stop destination for movies, TV shows, and more, available anytime, anywhere.',
+                'val' => 'Discover a world of endless entertainment with carilab. Your one-stop destination for movies, TV shows, and more, available anytime, anywhere.',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -218,7 +218,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 15,
                 'name' => 'stripe_secretkey',
-                'val' => 'sk_test_51RVvciPv5EqopzoVvrdkQN5Ts09TQNHMM7QIwvva5UR5RJcLFF6oP6JYHZH9triWjVX3llvTZeZv19c4D4HekWL900f1jncTRW',
+                'val' => 'sk_test_CG2JhAIXvVWDeFUFqtUizO4N00zmvm7o8J',
                 'type' => 'str_payment_method',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -232,7 +232,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 16,
                 'name' => 'stripe_publickey',
-                'val' => 'pk_test_51RVvciPv5EqopzoVTOzDdO9HWauAEfgi6rZeIfNqaxQRlfzLhTsykOGryzuO3HkzES8403HuKYxAFK9f85zgqJp500PFmH8Vai',
+                'val' => 'pk_test_HtQwwWoE9b43mfy5km6ThSPN00xunQv8J9',
                 'type' => 'str_payment_method',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -514,7 +514,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 36,
                 'name' => 'firebase_key',
-                'val' => 'kivilab-laravel-flutter',
+                'val' => 'carilab-laravel-flutter',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -696,7 +696,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 49,
                 'name' => 'authDomain',
-                'val' => 'kivilab-laravel-flutter.firebaseapp.com',
+                'val' => 'carilab-laravel-flutter.firebaseapp.com',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -710,7 +710,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 50,
                 'name' => 'databaseURL',
-                'val' => 'https://kivilab-laravel-flutter-default-rtdb.asia-southeast1.firebasedatabase.app',
+                'val' => 'https://carilab-laravel-flutter-default-rtdb.asia-southeast1.firebasedatabase.app',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -724,7 +724,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 51,
                 'name' => 'projectId',
-                'val' => 'kivilab-laravel-flutter',
+                'val' => 'carilab-laravel-flutter',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -738,7 +738,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 52,
                 'name' => 'storageBucket',
-                'val' => 'kivilab-laravel-flutter.appspot.com',
+                'val' => 'carilab-laravel-flutter.appspot.com',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -877,7 +877,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 62,
                 'name' => 'date_format',
-                'val' => 'Y-m-d',
+                'val' => 'd-m-Y',
                 'type' => 'misc',
                 'datatype' => 'misc',
                 'created_by' => 2,
@@ -947,7 +947,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 67,
                 'name' => 'settings_copyright',
-                'val' => 'kivilab',
+                'val' => 'carilab',
                 'type' => 'misc',
                 'datatype' => 'misc',
                 'created_by' => 2,
@@ -961,8 +961,8 @@ class SettingSeeder extends Seeder
         foreach ($data as $setting) {
             $service = Setting::create($setting);
         }
-        $sourceFilePath = base_path('public/dummy-images/json-file/kivilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
-        $destinationPath = storage_path('app/data/kivilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
+        $sourceFilePath = base_path('public/dummy-images/json-file/carilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
+        $destinationPath = storage_path('app/data/carilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
 
         // Check if the file exists in the source location
         if (File::exists($sourceFilePath)) {
