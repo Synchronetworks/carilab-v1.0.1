@@ -22,7 +22,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 1,
                 'name' => 'app_name',
-                'val' => 'carilab: Your Ultimate Entertainment Hub',
+                'val' => 'Kivilab: Your Ultimate Entertainment Hub',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -36,7 +36,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 2,
                 'name' => 'user_app_name',
-                'val' => 'CariLab: Your Ultimate Entertainment Hub',
+                'val' => 'Kivilab: Your Ultimate Entertainment Hub',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -64,7 +64,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 4,
                 'name' => 'inquriy_email',
-                'val' => 'support@carilab.my',
+                'val' => 'hello@iqonic.design',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -120,7 +120,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 8,
                 'name' => 'default_time_zone',
-                'val' => 'Asia/kuala_lumpur',
+                'val' => 'Asia/Kolkata',
                 'type' => 'misc',
                 'datatype' => 'misc',
                 'created_by' => 2,
@@ -218,7 +218,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 15,
                 'name' => 'stripe_secretkey',
-                'val' => 'sk_test_51RVvciPv5EqopzoVvrdkQN5Ts09TQNHMM7QIwvva5UR5RJcLFF6oP6JYHZH9triWjVX3llvTZeZv19c4D4HekWL900f1jncTRW',
+                'val' => 'sk_test_CG2JhAIXvVWDeFUFqtUizO4N00zmvm7o8J',
                 'type' => 'str_payment_method',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -232,7 +232,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 16,
                 'name' => 'stripe_publickey',
-                'val' => 'pk_test_51RVvciPv5EqopzoVTOzDdO9HWauAEfgi6rZeIfNqaxQRlfzLhTsykOGryzuO3HkzES8403HuKYxAFK9f85zgqJp500PFmH8Vai',
+                'val' => 'pk_test_HtQwwWoE9b43mfy5km6ThSPN00xunQv8J9',
                 'type' => 'str_payment_method',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -849,7 +849,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 60,
                 'name' => 'default_currency',
-                'val' => '132',
+                'val' => '230',
                 'type' => 'misc',
                 'datatype' => 'misc',
                 'created_by' => 2,

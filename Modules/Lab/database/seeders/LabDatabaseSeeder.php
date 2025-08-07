@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Modules\Lab\Models\Lab;
 use Modules\Lab\Models\LabSession;
 use Illuminate\Support\Arr;
+
 class LabDatabaseSeeder extends Seeder
 {
     /**
@@ -41,10 +42,10 @@ class LabDatabaseSeeder extends Seeder
                 'tax_identification_number' => '987-654321',
                 'payment_modes' => ['manual', 'online'],
                 'payment_gateways' => [],
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/spectrum_health_diagnostics.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
             [
                 'name' => 'Advanced Diagnostics Lab',
@@ -72,7 +73,7 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/advanced_diagnostics_lab.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
             [
                 'name' => 'Precision Medical Lab',
@@ -100,7 +101,7 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/precision_medical_lab.png'),
-                'taxes' =>'service-tax, state-health-tax',
+                'taxes' => 'service-tax, state-health-tax',
             ],
             [
                 'name' => 'Horizon Clinical Lab',
@@ -128,7 +129,7 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/horizon_clinical_lab.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
             [
                 'name' => 'Apex Pathology Lab',
@@ -156,9 +157,9 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/apex_pathology_lab.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
-            
+
             [
                 'name' => 'PrimeCare Diagnostics',
                 'slug' => 'primecare-diagnostics',
@@ -185,7 +186,7 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/primecare_diagnostics.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
             [
                 'name' => 'Infinity Diagnostics Center',
@@ -213,9 +214,9 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/infinity_diagnostics_center.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
-            
+
             [
                 'name' => 'Vital Path Labs',
                 'slug' => 'vital-path-labs',
@@ -242,14 +243,14 @@ class LabDatabaseSeeder extends Seeder
                 'payment_gateways' => [],
                 'status' => 1,
                 'logo' => public_path('/dummy-images/lab/vital_path_labs.png'),
-                'taxes' =>'service-tax, home-collection-fee, state-health-tax',
+                'taxes' => 'service-tax, home-collection-fee, state-health-tax',
             ],
-            
-            
+
+
         ];
         foreach ($labs as $key => $val) {
             $logo = $val['logo'] ?? null;
-            $labData = Arr::except($val, ['logo','taxes']);
+            $labData = Arr::except($val, ['logo', 'taxes']);
             $lab = Lab::create($labData);
             if (isset($logo)) {
                 $this->attachFeatureImage($lab, $logo);
@@ -262,14 +263,13 @@ class LabDatabaseSeeder extends Seeder
                 ['day' => 'friday', 'start_time' => '09:00', 'end_time' => '18:00', 'is_holiday' => false, 'breaks' => []],
                 ['day' => 'saturday', 'start_time' => '09:00', 'end_time' => '18:00', 'is_holiday' => false, 'breaks' => []],
                 ['day' => 'sunday', 'start_time' => '09:00', 'end_time' => '18:00', 'is_holiday' => true, 'breaks' => []],
-            ];            
+            ];
             foreach ($days as $key => $val) {
 
                 $val['lab_id'] = $lab->id;
                 LabSession::create($val);
             }
-            if(!empty($labData['taxes']))
-            {
+            if (!empty($labData['taxes'])) {
                 $taxes = explode(',', $labData['taxes']);
                 foreach ($taxes as $tax) {
                     $taxId = trim($tax); // Assuming you have a way to get tax ID from tax name
@@ -279,8 +279,7 @@ class LabDatabaseSeeder extends Seeder
                     ]);
                 }
             }
-            if(!empty($labData['locations']))
-            {
+            if (!empty($labData['locations'])) {
                 foreach ($labData['locations'] as $locationId) {
                     LabLocationMapping::create([
                         'lab_id' => $lab->id,
@@ -298,6 +297,5 @@ class LabDatabaseSeeder extends Seeder
         $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('logo');
 
         return $media;
-
     }
 }

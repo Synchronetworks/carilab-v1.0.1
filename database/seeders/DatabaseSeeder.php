@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -51,8 +52,5 @@ class DatabaseSeeder extends Seeder
 
         Artisan::call('cache:clear');
         Artisan::call('storage:link');
-
-        
     }
 }
-

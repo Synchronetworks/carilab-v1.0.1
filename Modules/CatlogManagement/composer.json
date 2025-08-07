@@ -1,24 +1,22 @@
 {
-    "name": "iqonicdesign/catlogmanagement",
-    "description": "",
-    "type": "laravel-module",
-    "authors": [
-        {
-            "name": "Iqonic Design",
-            "email": "hello@iqonic.design"
-        }
-    ],
-    "extra": {
-        "laravel": {
-            "providers": [],
-            "aliases": {
-
-            }
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "Modules\\CatlogManagement\\": ""
-        }
+  "name": "iqonicdesign/catlogmanagement",
+  "description": "",
+  "type": "laravel-module",
+  "authors": [
+    {
+      "name": "Iqonic Design",
+      "email": "hello@iqonic.design"
     }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [],
+      "aliases": {}
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\CatlogManagement\\": ""
+    }
+  }
 }
