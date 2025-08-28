@@ -264,7 +264,7 @@ return [
     'lbl_customization' => 'Customization',
     'lbl_mail' => 'Mail',
     'lbl_notification' => 'Notification',
-    'lbl_payment' => 'Payment',
+    'lbl_payment' => 'payment',
     'lbl_language' => 'Language',
     'lbl_notification_configuration' => 'Notification Configuration',
     'lbl_commission-setting' => 'Commision Setting',

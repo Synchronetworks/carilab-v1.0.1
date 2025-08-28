@@ -40,7 +40,7 @@ use Modules\Wallet\Models\Wallet;
 
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
-    
+
     use HasRoles;
     use Notifiable;
     use SoftDeletes;
@@ -174,7 +174,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
         return $this->hasMany(Subscription::class, 'user_id', 'id')
             ->where('status', config('constant.SUBSCRIPTION_STATUS.ACTIVE'))->orderBy('id', 'desc');
-
     }
 
     public function subscriptiondata()
@@ -193,7 +192,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         $query->where('show_in_calender', 1);
     }
 
-   
+
     public function getProfileImageAttribute()
     {
         $media = $this->getFirstMediaUrl('profile_image');
@@ -271,17 +270,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function collectorAppointmentmapping()
     {
         return $this->hasMany(AppointmentCollectorMapping::class, 'collector_id', 'id');
-
     }
     public function vendorappointment()
     {
         return $this->hasMany(Appointment::class, 'vendor_id', 'id');
-
     }
     public function userappointment()
     {
         return $this->hasMany(Appointment::class, 'customer_id', 'id');
-
     }
     public function commission_earning()
     {
@@ -301,7 +297,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             $query = $query->where('user_type', 'collector')->whereHas('collectorVendormapping', function ($query) use ($user) {
                 $query->where('vendor_id', $user->id);
             });
-
         }
 
         if ($user && $user->hasRole('collector')) {
@@ -333,7 +328,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function banks()
     {
         return $this->hasMany(Bank::class, 'user_id', 'id');
-
     }
     public function getAppointmentStats($userId, $userType)
     {
@@ -510,17 +504,17 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     {
         return $this->hasMany(Review::class, 'collector_id', 'id');
     }
-    public function wallet(){
-        return $this->hasOne(Wallet::class, 'user_id','id')->where('status',1);
-
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id')->where('status', 1);
     }
     public function scopeMyUser(Builder $query)
     {
         $user = auth()->user();
 
         if ($user && $user->hasRole('vendor')) {
-            $query = $query->whereHas('userappointment', function($q) use($user){
-                $q->where('vendor_id',$user->id);
+            $query = $query->whereHas('userappointment', function ($q) use ($user) {
+                $q->where('vendor_id', $user->id);
             });
         }
 

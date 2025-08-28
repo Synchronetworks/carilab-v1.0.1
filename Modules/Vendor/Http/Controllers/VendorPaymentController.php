@@ -24,6 +24,7 @@ use Midtrans\Config;
 use App\Models\User;
 use App\Trait\NotificationTrait;
 use App\Trait\PaymentTrait;
+
 class VendorPaymentController extends Controller
 {
     use NotificationTrait;
@@ -41,16 +42,16 @@ class VendorPaymentController extends Controller
 
 
     public function processPayment(Request $request)
-    {     
+    {
         $paymentMethod = $request->input('payment_method');
         $price = $request->input('price');
-        $price = intval(round($price * 100)); 
-        $vendor_id=$request->input('vendor_id');
-        $subscriptionType=$request->input('subscription_type');
+        $price = intval(round($price * 100));
+        $vendor_id = $request->input('vendor_id');
+        $subscriptionType = $request->input('subscription_type');
         $request->merge([
             'success_url' => route('payment.success')
         ]);
-     
+
         $paymentHandlers = [
             'stripe' => 'StripePayment',
             'razorpay' => 'RazorpayPayment',
@@ -65,7 +66,7 @@ class VendorPaymentController extends Controller
         ];
 
         if (array_key_exists($paymentMethod, $paymentHandlers)) {
-        
+
             return $this->{$paymentHandlers[$paymentMethod]}($request, $price);
         }
 
@@ -80,19 +81,20 @@ class VendorPaymentController extends Controller
 
         switch ($gateway) {
             case 'stripe':
-                $result = $this->handleStripeSuccess($request);              
-            if ($result['status'] === 'success') {
-                return $this->handlePaymentSuccess(
-                    $result['data']['plan_id'],
-                    $result['data']['amount'],
-                    $result['data']['payment_type'],
-                    $result['data']['transaction_id'],
-                    $result['data']['vendor_id'],
-                    $result['data']['subcriptionType']??'new',
-                );
-            }
-            case 'razorpay':
-                return $this->handleRazorpaySuccess($request);
+                $result = $this->handleStripeSuccess($request);
+                if ($result['status'] === 'success') {
+                    return $this->handlePaymentSuccess(
+                        $result['data']['plan_id'],
+                        $result['data']['amount'],
+                        $result['data']['payment_type'],
+                        $result['data']['transaction_id'],
+                        $result['data']['vendor_id'],
+                        $result['data']['subcriptionType'] ?? 'new',
+                    );
+                }
+                //🟢 need to comment out because not use for razorpay
+                // case 'razorpay':
+                //     return $this->handleRazorpaySuccess($request);
             case 'paystack':
                 $result = $this->handlePaystackSuccess($request);
                 if ($result['status'] === 'success') {
@@ -117,7 +119,7 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             case 'flutterwave':
                 $result = $this->handleFlutterwaveSuccess($request);
                 if ($result['status'] === 'success') {
@@ -130,7 +132,7 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             case 'phonepe':
                 $result = $this->handlePhonePeSuccess($request);
                 if ($result['status'] === 'success') {
@@ -143,7 +145,7 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             case 'cinet':
                 $result = $this->handleCinetSuccess($request);
                 if ($result['status'] === 'success') {
@@ -156,7 +158,7 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             case 'sadad':
                 $result = $this->handleSadadSuccess($request);
                 if ($result['status'] === 'success') {
@@ -169,7 +171,7 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             case 'airtel':
                 $result = $this->handleAirtelSuccess($request);
                 if ($result['status'] === 'success') {
@@ -182,7 +184,7 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             case 'midtrans':
                 $result = $this->handleMidtransSuccess($request);
                 if ($result['status'] === 'success') {
@@ -195,14 +197,15 @@ class VendorPaymentController extends Controller
                     );
                 }
                 return redirect()->back()->withErrors($result['message']);
-    
+
             default:
-                return redirect('/')->with('error', __('messages.invalid_payment_gateway'));        }
+                return redirect('/')->with('error', __('messages.invalid_payment_gateway'));
+        }
     }
 
-    protected function handlePaymentSuccess($plan_id, $amount, $payment_type, $transaction_id,$vendor_id,$subscription_type='new')
+    protected function handlePaymentSuccess($plan_id, $amount, $payment_type, $transaction_id, $vendor_id, $subscription_type = 'new')
     {
-       
+
         $plan = Plan::findOrFail($plan_id);
         $start_date = now();
         $end_date = $this->get_plan_expiration_date($start_date, $plan->duration, $plan->duration_value);
@@ -220,7 +223,7 @@ class VendorPaymentController extends Controller
                 ->where('status', ['active'])
                 ->update(['status' => 'inactive']);
         }
-        
+
         // Create the subscription
         $subscription = Subscription::create([
             'plan_id' => $plan_id,
@@ -239,12 +242,12 @@ class VendorPaymentController extends Controller
             'level' => $plan->level,
             'plan_type' => '',
             'discount_percentage' => $plan->discount_percentage,
-          
+
         ]);
- 
+
         // Create a subscription transaction
-       $SubscriptionTransactions= SubscriptionTransactions::create([
-            'user_id' =>$vendor_id,
+        $SubscriptionTransactions = SubscriptionTransactions::create([
+            'user_id' => $vendor_id,
             'amount' => $amount,
             'payment_type' => $payment_type,
             'payment_status' => 'paid',
@@ -252,9 +255,9 @@ class VendorPaymentController extends Controller
             'transaction_id' => $transaction_id,
             'subscriptions_id' => $subscription->id,
         ]);
-       
 
-       
+
+
         $user = User::find($vendor_id);
         if ($user) {
             $user->update(['is_subscribe' => 1]);
@@ -263,22 +266,21 @@ class VendorPaymentController extends Controller
 
         $activity_data = [
             'activity_type' => 'subscription_added',
-            'notification_type'=>'subscription_added',
+            'notification_type' => 'subscription_added',
             'appointment_id' => $subscription->id,
             'subscription' => $subscription,
         ];
-  
-    if ($subscription_type == 'upgrade-plan') {
-        return redirect()->route('backend.vendors.subscription-history')->with('success', __('messages.upgrade_plan_successfully'));
-    } 
-    return redirect()->route('vendor-registration', ['step' => 4,'vendor_id' => $vendor_id])
-        ->with('success', __('messages.payment_complete'));
-    
-}
 
-  
+        if ($subscription_type == 'upgrade-plan') {
+            return redirect()->route('backend.vendors.subscription-history')->with('success', __('messages.upgrade_plan_successfully'));
+        }
+        return redirect()->route('vendor-registration', ['step' => 4, 'vendor_id' => $vendor_id])
+            ->with('success', __('messages.payment_complete'));
+    }
 
-  
+
+
+
 
     protected function handleCinetSuccess(Request $request)
     {
@@ -410,50 +412,51 @@ class VendorPaymentController extends Controller
     public function subscriptionPlan()
     {
         $vendor_id = auth()->id() ?? null;
-        $plans = Plan::with('planLimitation')->where('status',1)->get();
-        $activeSubscriptions = Subscription::where('user_id', auth()->id())->where('status', 'active')->where('end_date', '>', now())->orderBy('id','desc')->first();
+        $plans = Plan::with('planLimitation')->where('status', 1)->get();
+        $activeSubscriptions = Subscription::where('user_id', auth()->id())->where('status', 'active')->where('end_date', '>', now())->orderBy('id', 'desc')->first();
         $currentPlanId = $activeSubscriptions ? $activeSubscriptions->plan_id : null;
         $subscriptions = Subscription::where('user_id', auth()->id())
-        ->with('subscription_transaction')
-        ->where('end_date', '<', now())
-        ->get();
-        $module_title=__('messages.subscription_plans');
-        return view('vendor::backend.subscriptionplan', compact('plans','module_title','currentPlanId','vendor_id','activeSubscriptions'));
+            ->with('subscription_transaction')
+            ->where('end_date', '<', now())
+            ->get();
+        $module_title = __('messages.subscription_plans');
+        return view('vendor::backend.subscriptionplan', compact('plans', 'module_title', 'currentPlanId', 'vendor_id', 'activeSubscriptions'));
     }
 
     public function selectPlan(Request $request)
     {
-       
+
         $planId = $request->input('plan_id');
         $planName = $request->input('plan_name');
-        $vendor_id= $request->input('vendor_id');
-        $subscriptionType= $request->input('subscription_type')??null;
-        $plans = Plan::where('status',1)->get();
+        $vendor_id = $request->input('vendor_id');
+        $subscriptionType = $request->input('subscription_type') ?? null;
+        $plans = Plan::where('status', 1)->get();
         $module_title = 'Payment Details';
-      if($subscriptionType == 'upgrade-plan'){
-      
-        $redirectUrl = route('backend.subscriptionUpgradePlan', [
-            'planId' => $planId,
-            'vendor_id' => $vendor_id,
-            'subscriptionType' => $subscriptionType,
-            'module_title' => $module_title,
-            'plans' =>$plans,
+        if ($subscriptionType == 'upgrade-plan') {
 
-        ]);
-        return response()->json(['success' => true, 'redirect_url' => $redirectUrl]);
-      }
-        $view = view('vendor::backend.VendorRegistration.subscriptionPayment', compact('plans', 'planId','vendor_id','subscriptionType'))->render();
+            $redirectUrl = route('backend.subscriptionUpgradePlan', [
+                'planId' => $planId,
+                'vendor_id' => $vendor_id,
+                'subscriptionType' => $subscriptionType,
+                'module_title' => $module_title,
+                'plans' => $plans,
+
+            ]);
+            return response()->json(['success' => true, 'redirect_url' => $redirectUrl]);
+        }
+        $view = view('vendor::backend.VendorRegistration.subscriptionPayment', compact('plans', 'planId', 'vendor_id', 'subscriptionType'))->render();
         return response()->json(['success' => true, 'view' => $view]);
     }
 
 
-    public function subscriptionUpgradePlan(Request $request){
+    public function subscriptionUpgradePlan(Request $request)
+    {
         $planId = $request->input('planId');
-        $vendor_id= $request->input('vendor_id');
-        $subscriptionType= $request->input('subscriptionType')??null;
+        $vendor_id = $request->input('vendor_id');
+        $subscriptionType = $request->input('subscriptionType') ?? null;
         $module_title = 'Payment Details';
-        $plans = Plan::where('status',1)->get();
-        return view('vendor::backend.subscriptionupgradePayment', compact('module_title','plans', 'planId','vendor_id','subscriptionType'))->render();
+        $plans = Plan::where('status', 1)->get();
+        return view('vendor::backend.subscriptionupgradePayment', compact('module_title', 'plans', 'planId', 'vendor_id', 'subscriptionType'))->render();
     }
 
 

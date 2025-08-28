@@ -360,25 +360,63 @@ trait PaymentTrait
 
     //handle payment
 
+    // protected function handleStripeSuccess(Request $request)
+    // {
+    //     try {
+    //         $sessionId = $request->input('session_id');
+    //         $stripe = new StripeClient(GetpaymentMethod('stripe_secretkey'));
+    //         $session = $stripe->checkout->sessions->retrieve($sessionId);
+    //         $totalAmount = $session->amount_total / 100;
+    //         // Return payment details instead of directly handling
+    //         return [
+    //             'status' => __('messages.success'),
+    //             'data' => [
+    //                 'plan_id' => $session->metadata->plan_id,
+    //                 'amount' => $totalAmount,
+    //                 'payment_type' => __('messages.lbl_stripe'),
+    //                 'transaction_id' => $session->payment_intent,
+    //                 'vendor_id' => $session->metadata->vendor_id,
+    //                 'subcriptionType' => $session->metadata->subcriptionType,
+    //             ]
+    //         ];
+    //     } catch (\Exception $e) {
+    //         return [
+    //             'status' => __('messages.error'),
+    //             'message' => $e->getMessage()
+    //         ];
+    //     }
+    // }
+    //stripe success
+
+    // Updated Stripe success handler to directly process payment
     protected function handleStripeSuccess(Request $request)
     {
         try {
             $sessionId = $request->input('session_id');
-            $stripe = new StripeClient(GetpaymentMethod('stripe_secretkey'));
+            $stripe = new \Stripe\StripeClient(GetpaymentMethod('stripe_secretkey'));
             $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+            // Verify the payment is completed
+            if ($session->payment_status !== 'paid') {
+                return redirect()->back()->with('error', __('messages.payment_fail'));
+            }
+
             $totalAmount = $session->amount_total / 100;
-            // Return payment details instead of directly handling
-            return [
-                'status' => __('messages.success'),
-                'data' => [
-                    'plan_id' => $session->metadata->plan_id,
-                    'amount' => $totalAmount,
-                    'payment_type' => __('messages.lbl_stripe'),
-                    'transaction_id' => $session->payment_intent,
-                    'vendor_id' => $session->metadata->vendor_id,
-                    'subcriptionType' => $session->metadata->subcriptionType,
-                ]
-            ];
+            $planId = $session->metadata->plan_id;
+            $vendorId = $session->metadata->vendor_id;
+            $subscriptionType = $session->metadata->subcriptionType;
+
+            // Call your existing success handler to update the database
+            $this->handlePaymentSuccess(
+                $planId,
+                $totalAmount,
+                'stripe',
+                $session->payment_intent, // transaction ID
+                $vendorId,
+                $subscriptionType
+            );
+
+            return redirect()->route('subscription.success')->with('success', __('messages.payment_success'));
         } catch (\Exception $e) {
             return [
                 'status' => __('messages.error'),
@@ -386,7 +424,6 @@ trait PaymentTrait
             ];
         }
     }
-
 
     //paystack success
     protected function handlePaystackSuccess(Request $request)
@@ -509,23 +546,23 @@ trait PaymentTrait
 
 
     //razor pay
-    protected function handleRazorpaySuccess(Request $request)
-    {
-        $paymentId = $request->input('razorpay_payment_id');
-        $razorpayOrderId = session('razorpay_order_id');
-        $plan_id = $request->input('plan_id');
+    // protected function handleRazorpaySuccess(Request $request)
+    // {
+    //     $paymentId = $request->input('razorpay_payment_id');
+    //     $razorpayOrderId = session('razorpay_order_id');
+    //     $plan_id = $request->input('plan_id');
 
-        $razorpayKey = 'rzp_test_CLw7tH3O3P5eQM';
-        $razorpaySecret = 'rzp_test_CLw7tH3O3P5eQM';
-        $api = new \Razorpay\Api\Api($razorpayKey, $razorpaySecret);
-        $payment = $api->payment->fetch($paymentId);
+    //     $razorpayKey = 'rzp_test_CLw7tH3O3P5eQM';
+    //     $razorpaySecret = 'rzp_test_CLw7tH3O3P5eQM';
+    //     $api = new \Razorpay\Api\Api($razorpayKey, $razorpaySecret);
+    //     $payment = $api->payment->fetch($paymentId);
 
-        if ($payment['status'] == 'captured') {
-            return $this->handlePaymentSuccess($plan_id, $payment['amount'] / 100, 'razorpay', $paymentId);
-        } else {
-            return redirect('/')->with('error', __('messages.payment_fail') . $payment['error_description']);
-        }
-    }
+    //     if ($payment['status'] == 'captured') {
+    //         return $this->handlePaymentSuccess($plan_id, $payment['amount'] / 100, 'razorpay', $paymentId);
+    //     } else {
+    //         return redirect('/')->with('error', __('messages.payment_fail') . $payment['error_description']);
+    //     }
+    // }
 
 
     protected function handlePhonePeSuccess(Request $request)
