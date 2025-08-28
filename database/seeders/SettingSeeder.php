@@ -36,7 +36,11 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 2,
                 'name' => 'user_app_name',
+<<<<<<< HEAD
                 'val' => 'Kivilab: Your Ultimate Entertainment Hub',
+=======
+                'val' => 'carilab: Your Ultimate Entertainment Hub',
+>>>>>>> aa9f34b78e4663033d47c5b897d43e1fb5088984
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -78,7 +82,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 5,
                 'name' => 'short_description',
-                'val' => 'Discover a world of endless entertainment with Kivilab. Your one-stop destination for movies, TV shows, and more, available anytime, anywhere.',
+                'val' => 'Discover a world of endless entertainment with carilab. Your one-stop destination for movies, TV shows, and more, available anytime, anywhere.',
                 'type' => 'bussiness',
                 'datatype' => 'bussiness',
                 'created_by' => 2,
@@ -514,7 +518,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 36,
                 'name' => 'firebase_key',
-                'val' => 'kivilab-laravel-flutter',
+                'val' => 'carilab-laravel-flutter',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -696,7 +700,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 49,
                 'name' => 'authDomain',
-                'val' => 'kivilab-laravel-flutter.firebaseapp.com',
+                'val' => 'carilab-laravel-flutter.firebaseapp.com',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -710,7 +714,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 50,
                 'name' => 'databaseURL',
-                'val' => 'https://kivilab-laravel-flutter-default-rtdb.asia-southeast1.firebasedatabase.app',
+                'val' => 'https://carilab-laravel-flutter-default-rtdb.asia-southeast1.firebasedatabase.app',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -724,7 +728,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 51,
                 'name' => 'projectId',
-                'val' => 'kivilab-laravel-flutter',
+                'val' => 'carilab-laravel-flutter',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -738,7 +742,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 52,
                 'name' => 'storageBucket',
-                'val' => 'kivilab-laravel-flutter.appspot.com',
+                'val' => 'carilab-laravel-flutter.appspot.com',
                 'type' => 'appconfig',
                 'datatype' => NULL,
                 'created_by' => 2,
@@ -877,7 +881,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 62,
                 'name' => 'date_format',
-                'val' => 'Y-m-d',
+                'val' => 'd-m-Y',
                 'type' => 'misc',
                 'datatype' => 'misc',
                 'created_by' => 2,
@@ -947,7 +951,7 @@ class SettingSeeder extends Seeder
             array(
                 'id' => 67,
                 'name' => 'settings_copyright',
-                'val' => 'kivilab',
+                'val' => 'carilab',
                 'type' => 'misc',
                 'datatype' => 'misc',
                 'created_by' => 2,
@@ -961,8 +965,8 @@ class SettingSeeder extends Seeder
         foreach ($data as $setting) {
             $service = Setting::create($setting);
         }
-        $sourceFilePath = base_path('public/dummy-images/json-file/kivilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
-        $destinationPath = storage_path('app/data/kivilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
+        $sourceFilePath = base_path('public/dummy-images/json-file/carilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
+        $destinationPath = storage_path('app/data/carilab-laravel-flutter-firebase-adminsdk-czzah-2c84a7b029.json');
 
         // Check if the file exists in the source location
         if (File::exists($sourceFilePath)) {
