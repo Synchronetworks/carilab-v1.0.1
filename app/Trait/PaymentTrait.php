@@ -545,7 +545,7 @@ trait PaymentTrait
     }
 
 
-    //razor pay
+    //razor pay this payment have error
     // protected function handleRazorpaySuccess(Request $request)
     // {
     //     $paymentId = $request->input('razorpay_payment_id');
